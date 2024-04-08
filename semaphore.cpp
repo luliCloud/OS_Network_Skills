@@ -35,7 +35,6 @@ void worker(int id) {
 int main() {
     vector<thread> threads;
 
-
     for (int i = 0; i < 5; i++) {
         /* basic constructor of thread:
         template <class Function, class... Args>
