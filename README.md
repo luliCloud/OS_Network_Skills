@@ -1,2 +1,4 @@
 # OSlearn
-This repository is the record of my coding of OS related tech stacks 
+My coding record of OS related tech stacks 
+1. pipe 
+2. 
