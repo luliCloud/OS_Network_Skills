@@ -19,7 +19,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    // create a child process， e.g.11661
+    // create a child process，generally fork cid will be 0
     cpid = fork(); // fork() is to create a process, highly like to current process
     if (cpid == -1) {
         cerr << "Fork failed" << endl;
