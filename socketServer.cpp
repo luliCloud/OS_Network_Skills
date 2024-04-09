@@ -1,5 +1,6 @@
 /* 服务器端创建一个套接字，绑定到一个地址和端口上，然后监听来自客户端的连接。
-一旦接受了连接，它就会读取客户端发送的数据，并将相同的数据回发给客户端。 */
+一旦接受了连接，它就会读取客户端发送的数据，并将相同的数据回发给客户端。 
+注意，client-server mode using socket is also used by TCP/IP */
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h> // for sockaddr_in 
