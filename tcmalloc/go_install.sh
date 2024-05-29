@@ -19,3 +19,7 @@ source ~/.bashrc
 
 # 验证 pprof 安装
 pprof -h
+
+# 如果要运行该文件
+# chmod +x go_install.sh
+# ./go_install.sh
