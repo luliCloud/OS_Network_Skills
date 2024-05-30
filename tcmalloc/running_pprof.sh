@@ -12,4 +12,5 @@ g++ -o supervise.out supervise_mallocextension.cpp -ltcmalloc
 
 # running this program
 # chmod +x running_pprof.sh
-# ./running_pprof.sh
+# ./running_pprof.sh  
+# noting in real case, we cannot always check .0001.heap as the number will increase auto
