@@ -8,13 +8,31 @@ using namespace std;
 void malloc_extension_supervise() {
     void* ptr1 = tc_malloc(128);
     void* ptr2 = tc_malloc(256);
+
+    // if we add ptr3 here, will the thread heap increase to 3?
+    cout << "adding ptr3 here" << endl;
+    void* ptr3 = tc_malloc(512);
+    /**
+     * 根据stats，不管我们开启一个tc_malloc()还是三个，thread heap都是两个。因此所有
+     * tc_malloc开启的新内存理论上都是在main这个线程上复用thread cache， 而不是开辟了
+     * 自己的新cache。但是span数量貌似和tc_malloc()的数量成正比。
+     * 如何开启新线程:
+     * void* ptr = tc_malloc(100);
+     * thread t(ptr);  // thread receive a ptr or lambda func
+     * t.join();  // don't terminate the main thread until t finish its program
+     * tc_free(ptr);
+    */
+
     // obtain memory stats
-    size_t buff_size = 1024 * 1024; // large enough
+    size_t buff_size = 1024 * 1024; // large enough. 这里跟application bytes use 相对
+    // 1024*1024-> 1.1MB inuse
+    // 1024*10240 -> 10.1MB inuse
     char* buffer = new char[buff_size];
     MallocExtension::instance()->GetStats(buffer, buff_size);
     cout << "Current TCMalloc stats: \n" << buffer << endl;
     tc_free(ptr1);
     tc_free(ptr2);
+    tc_free(ptr3);
 }
 
 int main(int argc, char** argv) {
