@@ -1,5 +1,5 @@
 #!/bin/bash
-# in this exercise we will explore chroot's ability to chagne the apparent dir for a process.
+# in this exercise we will explore chroot's ability to change the apparent dir for a process.
 # The setup will require an installation of a Debain-based guest system in a subdir of our 
 # Ubuntu host system. Although similar to the installation of a guest OS virtual machine,
 # this scenario is missing the hypervisor component, allowing the guest OS to be installed 
