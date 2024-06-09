@@ -466,4 +466,57 @@ Thread 2 attempting to acquire lock 1 ...
 ==60845== ERROR SUMMARY: 135 errors from 13 contexts (suppressed: 59 from 33)
 ctrl + c
 (base) lu@lu-t3610:~/greenpear/OSlearn/valgrind$ 
+
+
+(base) lu@lu-t3610:~/greenpear/OSlearn/valgrind$ valgrind --leak-check=full ./a.out
+==61171== Memcheck, a memory error detector
+==61171== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==61171== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==61171== Command: ./a.out
+==61171== 
+Thread 2 has acquired lock 2, sleeping...
+Thread 1 has acquired lock 1, sleeping...
+Thread 2 attempting to acquire lock 1 ...
+Thread 1 attempting to acquire lock 2 ...
+^X^C==61171== 
+==61171== Process terminating with default action of signal 2 (SIGINT)
+==61171==    at 0x4B2D117: __futex_abstimed_wait_common64 (futex-internal.c:57)
+==61171==    by 0x4B2D117: __futex_abstimed_wait_common (futex-internal.c:87)
+==61171==    by 0x4B2D117: __futex_abstimed_wait_cancelable64 (futex-internal.c:139)
+==61171==    by 0x4B32623: __pthread_clockjoin_ex (pthread_join_common.c:105)
+==61171==    by 0x1094F2: main (deadlock_helgrind.cpp:46)
+==61171== 
+==61171== HEAP SUMMARY:
+==61171==     in use at exit: 74,304 bytes in 4 blocks
+==61171==   total heap usage: 4 allocs, 0 frees, 74,304 bytes allocated
+==61171== 
+==61171== 288 bytes in 1 blocks are possibly lost in loss record 1 of 4
+==61171==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==61171==    by 0x40147D9: calloc (rtld-malloc.h:44)
+==61171==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
+==61171==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
+==61171==    by 0x4B317B4: allocate_stack (allocatestack.c:430)
+==61171==    by 0x4B317B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
+==61171==    by 0x1094C4: main (deadlock_helgrind.cpp:43)
+==61171== 
+==61171== 288 bytes in 1 blocks are possibly lost in loss record 2 of 4
+==61171==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==61171==    by 0x40147D9: calloc (rtld-malloc.h:44)
+==61171==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
+==61171==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
+==61171==    by 0x4B317B4: allocate_stack (allocatestack.c:430)
+==61171==    by 0x4B317B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
+==61171==    by 0x1094E1: main (deadlock_helgrind.cpp:44)
+==61171== 
+==61171== LEAK SUMMARY:
+==61171==    definitely lost: 0 bytes in 0 blocks
+==61171==    indirectly lost: 0 bytes in 0 blocks
+==61171==      possibly lost: 576 bytes in 2 blocks
+==61171==    still reachable: 73,728 bytes in 2 blocks
+==61171==         suppressed: 0 bytes in 0 blocks
+==61171== Reachable blocks (those to which a pointer was found) are not shown.
+==61171== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==61171== 
+==61171== For lists of detected and suppressed errors, rerun with: -s
+==61171== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
 */
