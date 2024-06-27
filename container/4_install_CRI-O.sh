@@ -40,3 +40,7 @@ exit
 sudo apt update
 
 # Install CRI-O packages:
+sudo apt install -y cri-o cri-o-runc
+
+# Display CRI-O version
+crio --version
