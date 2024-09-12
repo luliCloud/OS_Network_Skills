@@ -2,7 +2,7 @@
 #include <string.h>
 #include <time.h>  // for generating random time
 #include <stdlib.h> // for generating random num
-
+#include <ctype.h>
 // prototype 
 int generate_lottery(int nums_generatem, int max_num, int max_powerball_num,
 int num_set_gen);
@@ -21,22 +21,57 @@ int main (int argc, char** argv) {
     int i;  // first argv is function name itself
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-n") == 0) {  // == 0 indicating same
-            nums_generate = atoi(argv[++i]); // ++i, move to next argv
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                nums_generate = atoi(argv[i]); // ++i, move to next argv
+            }  else {
+                printf("Please enter a number for the argument -n\n");
+                return 1;
+            } 
         } else if (strcmp(argv[i], "-r") == 0) {
-            max_num = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                max_num = atoi(argv[i]); // ++i, move to next argv
+            } else {
+                printf("Please enter a number for the argument -r\n");
+                return 1;
+            }
         } else if (strcmp(argv[i], "-p") == 0) {
-            max_powerball_num = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                max_powerball_num = atoi(argv[i]); // ++i, move to next argv
+            } else {
+                printf("Please enter a number for the argument -p\n");
+                return 1;
+            }
         } else if (strcmp(argv[i], "-N") == 0) {  // -N
-            num_set_gen = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                num_set_gen = atoi(argv[i]); // ++i, move to next argv
+            }  else {
+                printf("Please enter a number for the argument -N\n");
+                return 1;
+            }       
         } else {
             printf("Invalid input!\n");
             return 1;
         }
-    }
-
-    if (argc == 9 && max_powerball_num <0) {
-        printf("No negative input is allowed for the arguments\n");
-        return 1;
     }
 
     int error = generate_lottery(nums_generate, max_num, 
@@ -48,11 +83,6 @@ int main (int argc, char** argv) {
 }
 
 int generate_lottery(int nums_gen, int max_num, int max_p_num, int num_set_gen) {
-    if (num_set_gen < 0 || nums_gen < 0 || max_num < 0) {
-        printf("No negative input is allowed for the arguments\n");
-        return 1;
-    }
-
     if (nums_gen > max_num) {
         printf("Numbers to be generated should no more than the max number!\n");
         return 1;
