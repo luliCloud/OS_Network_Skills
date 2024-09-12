@@ -2,16 +2,16 @@
 #include <string.h>
 #include <time.h>  // for generating random time
 #include <stdlib.h> // for generating random num
-
+#include <ctype.h>
 // prototype 
-void generate_lottery(int nums_generatem, int max_num, int max_powerball_num,
+int generate_lottery(int nums_generatem, int max_num, int max_powerball_num,
 int num_set_gen);
 
 int main (int argc, char** argv) {
     if (argc != 7 && argc != 9) { // 7 is not including -p as -p is optional
         printf("Please enter all required arguments, ");
         printf("include -r, -n, -p (optional) and -N\n");
-        return -1;
+        return 1;
     }
 
     // set variables for each args
@@ -21,28 +21,71 @@ int main (int argc, char** argv) {
     int i;  // first argv is function name itself
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-n") == 0) {  // == 0 indicating same
-            nums_generate = atoi(argv[++i]); // ++i, move to next argv
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                nums_generate = atoi(argv[i]); // ++i, move to next argv
+            }  else {
+                printf("Please enter a number for the argument -n\n");
+                return 1;
+            } 
         } else if (strcmp(argv[i], "-r") == 0) {
-            max_num = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                max_num = atoi(argv[i]); // ++i, move to next argv
+            } else {
+                printf("Please enter a number for the argument -r\n");
+                return 1;
+            }
         } else if (strcmp(argv[i], "-p") == 0) {
-            max_powerball_num = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                max_powerball_num = atoi(argv[i]); // ++i, move to next argv
+            } else {
+                printf("Please enter a number for the argument -p\n");
+                return 1;
+            }
         } else if (strcmp(argv[i], "-N") == 0) {  // -N
-            num_set_gen = atoi(argv[++i]);
+            ++i;
+            if (argv[i][0] == '-') {
+                printf("No negative input is allowed for the arguments\n");
+                return 1;
+            }
+            if (isdigit(argv[i][0])) {
+                num_set_gen = atoi(argv[i]); // ++i, move to next argv
+            }  else {
+                printf("Please enter a number for the argument -N\n");
+                return 1;
+            }       
         } else {
             printf("Invalid input!\n");
-            return -1;
+            return 1;
         }
     }
 
-    generate_lottery(nums_generate, max_num, max_powerball_num, num_set_gen);
-
+    int error = generate_lottery(nums_generate, max_num, 
+    max_powerball_num, num_set_gen);
+    if (error == 1) {
+        return 1;
+    }
     return 0;
 }
 
-void generate_lottery(int nums_gen, int max_num, int max_p_num, int num_set_gen) {
-    if (num_set_gen == -1 || nums_gen == -1 || max_num == -1) {
-        printf("No negative input is allowed for the arguments\n");
-        return;
+int generate_lottery(int nums_gen, int max_num, int max_p_num, int num_set_gen) {
+    if (nums_gen > max_num) {
+        printf("Numbers to be generated should no more than the max number!\n");
+        return 1;
     }
 
     // initialize random seed
@@ -70,11 +113,12 @@ void generate_lottery(int nums_gen, int max_num, int max_p_num, int num_set_gen)
         }
         printf("; ");
 
-        if (max_p_num != -1) {
+        if (max_p_num >= 0) {
             int p_num = rand() % max_p_num + 1;
             printf("PowerBall number: %d\n", p_num);
         } else {
             printf("\n");
         }
     }
+    return 0;
 }
