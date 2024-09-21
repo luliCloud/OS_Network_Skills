@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>  // exit()
 #include <sys/wait.h> // for wait() system call
-#include <sys/types.h>
-#include <unistd.h>  // for getpid()
+#include <sys/types.h> // pid_t
+#include <unistd.h>  // for getpid(), fork(), pause()
 #include <signal.h>  // for SIGINT
 
 void signal_handler(int sig) {
