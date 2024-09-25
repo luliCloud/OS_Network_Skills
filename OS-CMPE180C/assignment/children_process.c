@@ -21,8 +21,11 @@ int main() {
         // not even enter signal
     } else if (pid > 0) {  // parent process
         int status;
-        waitpid(pid, &status, 0);  
+        pid_t wait_pid = waitpid(pid, &status, 0);  
         // receiving status here. 0 is options position. 0 is by default 
+        if (wait_pid <= 0) {
+            return -1;
+        }
 
         // WIFEXITED (macro, short for wait if exited) 
         // is to interpret the status back to exit(status). Otherwise it is 
