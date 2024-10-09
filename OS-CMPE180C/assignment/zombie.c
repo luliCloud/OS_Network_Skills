@@ -63,6 +63,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Cannot handle signal correctly\n");
         exit(1);
     }
+
     pause(); // waiting for SIGCONT
     return 0;
 }
