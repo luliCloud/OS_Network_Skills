@@ -356,8 +356,17 @@ void consumer_shared_mem(int verbose) {
 }
 
 /**
+ * compilation:
+ * gcc producer-consumer.c -o producer-consumer -lrt -pthread
+ * 
  * test
  * 
  * to ensure shared mem be created, we must run producer first.
+ * for UNIX socket
+ * ./producer-consumer -p -m "Hello" -q 5 -u -e
+ * ./producer-consumer -c -u -e
  * 
+ * for shared mem
+ * ./producer-consumer -p -m "Hello" -q 5 -s -e
+ * ./producer-consumer -c -s -e
  */
