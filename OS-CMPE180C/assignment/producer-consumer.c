@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <bits/getopt_core.h> // getopt_core.h 
-#include <sys/select.h> // for select()， timing out
+#include <sys/select.h> // for select()timing out
 
 // define the dir for socket path and shared memory
 #define SOCKET_DIR "/tmp/socket" 
@@ -104,7 +104,6 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    // 调试：打印信号量的初始值
     // int empty_val, full_val, mutex_val;
     // sem_getvalue(sem_empty, &empty_val);
     // sem_getvalue(sem_full, &full_val);
@@ -138,7 +137,7 @@ int main(int argc, char** argv) {
 
 // prototype for producer function (unix socket). verbose indicate we should print msg
 void producer_socket(const char *msg, int queue_depth, int verbose) {
-    unlink(SOCKET_DIR); // 删除遗留的套接字文件
+    unlink(SOCKET_DIR); // delete left socket file
     // socket descriptor, similar to file descriptor. all socket related op need it.
     int server_fd, client_fd;
 
